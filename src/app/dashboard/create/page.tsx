@@ -5,7 +5,7 @@ import SelectStyle from "./_components/SelectStyle";
 import SelectDuration from "./_components/SelectDuration";
 import axios from "axios";
 import { v4 as uuid } from "uuid";
-import { CircularProgress } from "@mui/material";
+import { Backdrop, CircularProgress } from "@mui/material";
 
 type VideoScene = {
   imagePrompt: string;
@@ -27,7 +27,6 @@ const Page = () => {
   }>({});
 
   const onHandleInputChange = (fieldname: string, fieldValue: string) => {
-    console.log(fieldname, fieldValue);
     setFormData((prev) => ({ ...prev, [fieldname]: fieldValue }));
   };
 
@@ -38,7 +37,7 @@ const Page = () => {
   const GetVideoScript = async () => {
     setIsLoading(true);
 
-    const prompt = `Write a script to generate ${formData.duration} video on topic: ${formData.topic} along with AI image prompt in ${formData.style} format. For each scene, include an AI image prompt in ${formData.style} format and the corresponding content text. Provide the just result in JSON format with 'imagePrompt' and 'ContentText' as fields. Do not include any plain text outside of the JSON structure. json format: result:[{
+    const prompt = `Write a script to generate ${formData.duration} video on topic: ${formData.topic} along with AI image prompt in ${formData.style} format. For each scene, include an AI image prompt in ${formData.style} format and the corresponding content text. Provide the just result in JSON format with 'imagePrompt' and 'ContentText' as fields. Do not include any plain text outside of the JSON structure. json format: [{
     imagePrompt: string;
     ContentText: string;
     }]`;
@@ -48,21 +47,15 @@ const Page = () => {
         prompt,
       });
 
-      console.log(res);
-
       if (res.status == 200) {
         const ResponseScripts = res.data?.result;
 
-        console.log("ResponseScripts", ResponseScripts);
         setVideoScripts(ResponseScripts || null);
-        console.log("response", ResponseScripts);
         GenerateAudio(ResponseScripts || []);
       } else {
-        console.log("error", res.data?.error);
         setIsLoading(false);
       }
     } catch (err) {
-      console.error("Request failed:", err);
       setIsLoading(false);
     }
   };
@@ -79,7 +72,7 @@ const Page = () => {
       text: script,
       id,
     });
-    console.log("file", file);
+    // console.log("file", file);
     setIsLoading(false);
   };
   return (
@@ -95,13 +88,20 @@ const Page = () => {
           onClick={onCreateClickHandler}
           className="bg-primary p-4 hover:scale-105 cursor-pointer transition-all w-full  items-center justify-center flex text-white font-bold rounded mt-5 "
         >
-          {isLoading ? (
+          {/* {isLoading ? (
             <CircularProgress size={28} color="inherit" />
           ) : (
             "Create Short Video"
-          )}
+          )} */}
+          Create Short Video
         </button>
       </div>
+      <Backdrop
+        sx={(theme) => ({ color: "#fff", zIndex: theme.zIndex.drawer + 1 })}
+        open={isLoading}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </div>
   );
 };

@@ -8,7 +8,7 @@ const config = {
   responseMimeType: "application/json",
 };
 
-const model = "gemini-1.5-flash";
+const model = "gemini-2.5-pro";
 
 export const chatSession = async (prompt: string) => {
   const contents = [

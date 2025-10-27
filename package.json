@@ -21,6 +21,7 @@
     "@prisma/extension-accelerate": "^2.0.2",
     "@supabase/supabase-js": "^2.76.1",
     "@types/axios": "^0.9.36",
+    "assemblyai": "^4.18.4",
     "axios": "^1.11.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

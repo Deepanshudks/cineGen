@@ -18,6 +18,13 @@ export async function POST(req: Request) {
       });
     }
 
+    await new Promise<void>((resolve, reject) => {
+      speech.save(`./public/audio/output-${id}.mp3`, (err: any) => {
+        if (err) reject(err);
+        else resolve();
+      });
+    });
+
     const { data, error } = await supabase.storage
       .from("audio")
       .upload(`output-${id}.mp3`, speech);

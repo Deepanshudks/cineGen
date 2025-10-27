@@ -47,6 +47,8 @@ const Page = () => {
         prompt,
       });
 
+      console.log(res);
+
       if (res.status == 200) {
         const ResponseScripts = res.data?.result;
 
@@ -54,6 +56,9 @@ const Page = () => {
 
         setVideoScripts(ResponseScripts || null);
         GenerateAudio(ResponseScripts || []);
+        GenerateAudioCaption(
+          `./public/audio/output-20e014a6-7db9-4f35-b29f-e47acd9c29ea.mp3`
+        );
         setIsLoading(false);
       } else {
         setIsLoading(false);
@@ -74,14 +79,21 @@ const Page = () => {
 
     console.log("TEXT", script);
     try {
-      const file = await axios.post("/api/audio", {
+      const file = await axios.post("/api/generateaudio", {
         text: script,
         id,
       });
+      return file;
       // console.log("file", file);
     } catch (e: any) {
       console.log("AUDIO ERROR", e.message);
     }
+  };
+
+  const GenerateAudioCaption = async (filePath: string) => {
+    await axios
+      .post("/api/generatecaption", { filePath })
+      .then((res) => res.data);
   };
   return (
     <div className="md:px-20">

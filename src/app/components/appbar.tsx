@@ -25,7 +25,7 @@ const Header = () => {
 
   return (
     <>
-      <div className="z-50 p-2 shadow-lg bg-zinc-300 h-full items-center w-full flex justify-between">
+      <div className="z-50 p-2 fixed top-0 h-14 shadow-md bg-zinc-300  items-center w-full flex justify-between">
         <div className="flex justify-between">
           <ResponsiveDrawer>
             <SideNav />

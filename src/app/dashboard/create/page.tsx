@@ -50,12 +50,18 @@ const Page = () => {
       if (res.status == 200) {
         const ResponseScripts = res.data?.result;
 
+        console.log(ResponseScripts);
+
         setVideoScripts(ResponseScripts || null);
         GenerateAudio(ResponseScripts || []);
+        setIsLoading(false);
       } else {
         setIsLoading(false);
       }
     } catch (err) {
+      console.log("ERROR", err);
+      setIsLoading(false);
+    } finally {
       setIsLoading(false);
     }
   };
@@ -67,13 +73,15 @@ const Page = () => {
     const id = uuid();
 
     console.log("TEXT", script);
-
-    const file = await axios.post("/api/audio", {
-      text: script,
-      id,
-    });
-    // console.log("file", file);
-    setIsLoading(false);
+    try {
+      const file = await axios.post("/api/audio", {
+        text: script,
+        id,
+      });
+      // console.log("file", file);
+    } catch (e: any) {
+      console.log("AUDIO ERROR", e.message);
+    }
   };
   return (
     <div className="md:px-20">

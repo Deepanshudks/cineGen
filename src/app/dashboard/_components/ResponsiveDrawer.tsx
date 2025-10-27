@@ -14,14 +14,12 @@ export default function ResponsiveDrawer({
 
   return (
     <>
-      {/* Mobile Toggle Button */}
       {isMobile && (
         <IconButton onClick={() => setOpen(true)}>
           <Menu />
         </IconButton>
       )}
 
-      {/* Mobile Drawer */}
       {isMobile && (
         <Drawer
           anchor="left"
@@ -37,7 +35,6 @@ export default function ResponsiveDrawer({
         </Drawer>
       )}
 
-      {/* Desktop Permanent Drawer */}
       {!isMobile && (
         <Drawer
           className="!-z-0"

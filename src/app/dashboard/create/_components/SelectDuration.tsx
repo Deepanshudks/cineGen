@@ -14,14 +14,14 @@ const SelectDuration = ({
       <p className="text-gray-500">Select the duration of your video?</p>
       <div className="py-2 flex flex-col gap-2 mt-2">
         <TextField
-          id="content-type"
-          name="content-type"
+          id="content-duration"
+          name="content-duration"
           onChange={(e) => {
             setSelectDuration(e.target.value);
             onUserSelect("duration", e.target.value);
           }}
           select
-          label="Content Type"
+          label="Content Duration"
           className="w-full"
         >
           <MenuItem value="30 seconds">30 Seconds</MenuItem>

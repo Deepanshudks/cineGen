@@ -8,7 +8,7 @@ export default function DashboardLayout({
   return (
     <div>
       <Header />
-      <main className="md:ml-64 p-6 pt-8">{children}</main>
+      <main className="md:ml-64 p-6 pt-20">{children}</main>
     </div>
   );
 }

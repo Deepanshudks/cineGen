@@ -18,104 +18,110 @@ type VideoScriptResponse = {
 };
 
 const Page = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [, setVideoScripts] = useState<VideoScene[] | null>(null);
-  const [formData, setFormData] = useState<{
-    topic?: string;
-    style?: string;
-    duration?: string;
-  }>({});
+  const [formData, setFormData] = useState({
+    topic: "",
+    style: "",
+    duration: "",
+  });
 
-  const onHandleInputChange = (fieldname: string, fieldValue: string) => {
-    setFormData((prev) => ({ ...prev, [fieldname]: fieldValue }));
+  const handleInputChange = (field: string, value: string) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const onCreateClickHandler = () => {
-    GetVideoScript();
+  const handleCreateClick = () => {
+    if (!formData.topic || !formData.style || !formData.duration) {
+      alert("Please select topic, style, and duration before generating.");
+      return;
+    }
+    generateVideoScript();
   };
 
-  const GetVideoScript = async () => {
+  const generateVideoScript = async () => {
     setIsLoading(true);
 
-    const prompt = `Write a script to generate ${formData.duration} video on topic: ${formData.topic} along with AI image prompt in ${formData.style} format. For each scene, include an AI image prompt in ${formData.style} format and the corresponding content text. Provide the just result in JSON format with 'imagePrompt' and 'ContentText' as fields. Do not include any plain text outside of the JSON structure. json format: [{
-    imagePrompt: string;
-    ContentText: string;
-    }]`;
+    const { topic, style, duration } = formData;
+    const prompt = `
+      Write a script to generate a ${duration} video on topic: ${topic}.
+      Include AI image prompts and scene content in ${style} format.
+      Return JSON only in the form:
+      [{
+        "imagePrompt": string,
+        "ContentText": string
+      }]
+    `.trim();
 
     try {
-      const res = await axios.post<VideoScriptResponse>("/api/getvideoscript", {
-        prompt,
-      });
+      const { data, status } = await axios.post<VideoScriptResponse>(
+        "/api/getvideoscript",
+        { prompt }
+      );
 
-      console.log(res);
+      console.log("Script", data);
 
-      if (res.status == 200) {
-        const ResponseScripts = res.data?.result;
-
-        console.log(ResponseScripts);
-
-        setVideoScripts(ResponseScripts || null);
-        GenerateAudio(ResponseScripts || []);
-        GenerateAudioCaption(
-          `./public/audio/output-20e014a6-7db9-4f35-b29f-e47acd9c29ea.mp3`
-        );
-        setIsLoading(false);
+      if (status === 200 && data?.result) {
+        setVideoScripts(data.result);
+        const audioResponse: any = await generateAudio(data.result);
+        if (!audioResponse) {
+          alert("Audio generation failed.");
+        } else {
+          const res = await generateAudioCaption(audioResponse?.url);
+        }
       } else {
-        setIsLoading(false);
+        console.error("No valid result in response:", data);
       }
     } catch (err) {
-      console.log("ERROR", err);
-      setIsLoading(false);
+      console.error("Error generating video script:", err);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const GenerateAudio = async (scripts: VideoScene[]) => {
-    let script = "";
-    scripts?.forEach((item) => (script += item.ContentText + " "));
-
+  const generateAudio = async (scripts: VideoScene[]) => {
+    const text = scripts.map((s) => s.ContentText).join(" ");
     const id = uuid();
 
-    console.log("TEXT", script);
     try {
-      const file = await axios.post("/api/generateaudio", {
-        text: script,
-        id,
-      });
-      return file;
-      // console.log("file", file);
-    } catch (e: any) {
-      console.log("AUDIO ERROR", e.message);
+      const { data } = await axios.post("/api/generateaudio", { text, id });
+      // console.log(data, " Audio generated successfully");
+      return data;
+    } catch (err: any) {
+      console.error("Audio generation error:", err.message);
     }
   };
 
-  const GenerateAudioCaption = async (filePath: string) => {
-    await axios
-      .post("/api/generatecaption", { filePath })
-      .then((res) => res.data);
+  const generateAudioCaption = async (filePath: string) => {
+    try {
+      const { data } = await axios.post("/api/generatecaption", { filePath });
+      return data;
+    } catch (err) {
+      console.error("Caption generation error:", err);
+    }
   };
+
   return (
     <div className="md:px-20">
       <h1 className="text-2xl text-primary font-bold text-center">
         Create New Video
       </h1>
-      <div className=" p-10 shadow-lg rounded-md bg-white w-full">
-        <SelectTopic onUserSelect={onHandleInputChange} />
-        <SelectStyle onUserSelect={onHandleInputChange} />
-        <SelectDuration onUserSelect={onHandleInputChange} />
+
+      <div className="p-10 shadow-lg rounded-md bg-white w-full">
+        <SelectTopic onUserSelect={handleInputChange} />
+        <SelectStyle onUserSelect={handleInputChange} />
+        <SelectDuration onUserSelect={handleInputChange} />
+
         <button
-          onClick={onCreateClickHandler}
-          className="bg-primary p-4 hover:scale-105 cursor-pointer transition-all w-full  items-center justify-center flex text-white font-bold rounded mt-5 "
+          onClick={handleCreateClick}
+          disabled={isLoading}
+          className={`bg-primary p-4 w-full mt-5 flex items-center justify-center text-white font-bold rounded transition-all ${
+            isLoading ? "opacity-70 cursor-not-allowed" : "hover:scale-105"
+          }`}
         >
-          {/* {isLoading ? (
-            <CircularProgress size={28} color="inherit" />
-          ) : (
-            "Create Short Video"
-          )} */}
           Create Short Video
         </button>
       </div>
+
       <Backdrop
         sx={(theme) => ({ color: "#fff", zIndex: theme.zIndex.drawer + 1 })}
         open={isLoading}

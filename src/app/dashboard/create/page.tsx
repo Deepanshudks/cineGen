@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import { fal } from "@fal-ai/client";
 import SelectTopic from "./_components/SelectTopic";
 import SelectStyle from "./_components/SelectStyle";
 import SelectDuration from "./_components/SelectDuration";
@@ -18,9 +19,28 @@ type VideoScriptResponse = {
   error?: string;
 };
 
+type Word = {
+  text: string;
+  start: number;
+  end: number;
+  confidence: number;
+  speaker: string | null;
+};
+
+type TranscriptResponse = {
+  data: Word[];
+};
+
+type AudioResponse = {
+  message: string;
+  url: string;
+};
+
 const Page = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [, setVideoScripts] = useState<VideoScene[] | null>(null);
+  const [videoScript, setVideoScripts] = useState<VideoScene[]>([]);
+  const [audioUrl, setAudioUrl] = useState<string>("");
+  const [captions, setCaptions] = useState<TranscriptResponse>();
   const [formData, setFormData] = useState({
     topic: "",
     style: "",
@@ -32,11 +52,14 @@ const Page = () => {
   };
 
   const handleCreateClick = () => {
-    if (!formData.topic || !formData.style || !formData.duration) {
-      alert("Please select topic, style, and duration before generating.");
-      return;
-    }
-    generateVideoScript();
+    // if (!formData.topic || !formData.style || !formData.duration) {
+    //   alert("Please select topic, style, and duration before generating.");
+    //   return;
+    // }
+    // generateVideoScript();
+    // generateAudio(videoScript);
+    // generateAudioCaption(audioUrl);
+    generateImage();
   };
 
   const generateVideoScript = async () => {
@@ -59,46 +82,75 @@ const Page = () => {
         { prompt }
       );
 
-      console.log("Script", data);
+      console.log(data);
 
       if (status === 200 && data?.result) {
         setVideoScripts(data.result);
-        const audioResponse: any = await generateAudio(data.result);
-        if (!audioResponse) {
-          alert("Audio generation failed.");
-        } else {
-          const res = await generateAudioCaption(audioResponse?.url);
-        }
       } else {
         console.error("No valid result in response:", data);
       }
     } catch (err) {
       console.error("Error generating video script:", err);
-    } finally {
-      setIsLoading(false);
     }
+    setIsLoading(false);
   };
 
   const generateAudio = async (scripts: VideoScene[]) => {
+    setIsLoading(true);
     const text = scripts.map((s) => s.ContentText).join(" ");
     const id = uuid();
 
     try {
-      const { data } = await axios.post("/api/generateaudio", { text, id });
-      // console.log(data, " Audio generated successfully");
+      const { data } = await axios.post<AudioResponse>("/api/generateaudio", {
+        text,
+        id,
+      });
+      setAudioUrl(data.url);
       return data;
     } catch (err: any) {
       console.error("Audio generation error:", err.message);
     }
+    setIsLoading(false);
   };
 
   const generateAudioCaption = async (filePath: string) => {
+    setIsLoading(true);
     try {
-      const { data } = await axios.post("/api/generatecaption", { filePath });
+      const { data } = await axios.post<TranscriptResponse>(
+        "/api/generatecaption",
+        { filePath }
+      );
+      console.log("GenerateCaption", data);
+      setCaptions(data);
       return data;
     } catch (err) {
       console.error("Caption generation error:", err);
     }
+    setIsLoading(false);
+  };
+
+  // const generateImage = async () => {
+  //   const response = await fetch("/api/generateImages", {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify({ prompt: "A futuristic cyberpunk city skyline" }),
+  //   });
+
+  //   const data = await response.json();
+  //   console.log(data.images);
+  // };
+
+  const generateImage = async () => {
+    const res = await fetch("/api/generate", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        prompt:
+          "A lone archivist in a vast, dimly lit, futuristic library filled with glowing data servers and holographic dust motes. The archivist reaches for a single, ancient, pulsating data-core on a pedestal. Cinematic lighting, hyper-detailed, 8K, sci-fi concept art.",
+      }),
+    });
+
+    console.log(res);
   };
 
   return (

@@ -18,6 +18,11 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  * 
  */
 export type user = $Result.DefaultSelection<Prisma.$userPayload>
+/**
+ * Model videoData
+ * 
+ */
+export type videoData = $Result.DefaultSelection<Prisma.$videoDataPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -146,6 +151,16 @@ export class PrismaClient<
     * ```
     */
   get user(): Prisma.userDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.videoData`: Exposes CRUD operations for the **videoData** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more VideoData
+    * const videoData = await prisma.videoData.findMany()
+    * ```
+    */
+  get videoData(): Prisma.videoDataDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -586,7 +601,8 @@ export namespace Prisma {
 
 
   export const ModelName: {
-    user: 'user'
+    user: 'user',
+    videoData: 'videoData'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -605,7 +621,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user"
+      modelProps: "user" | "videoData"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -680,6 +696,80 @@ export namespace Prisma {
           count: {
             args: Prisma.userCountArgs<ExtArgs>
             result: $Utils.Optional<UserCountAggregateOutputType> | number
+          }
+        }
+      }
+      videoData: {
+        payload: Prisma.$videoDataPayload<ExtArgs>
+        fields: Prisma.videoDataFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.videoDataFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$videoDataPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.videoDataFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$videoDataPayload>
+          }
+          findFirst: {
+            args: Prisma.videoDataFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$videoDataPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.videoDataFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$videoDataPayload>
+          }
+          findMany: {
+            args: Prisma.videoDataFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$videoDataPayload>[]
+          }
+          create: {
+            args: Prisma.videoDataCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$videoDataPayload>
+          }
+          createMany: {
+            args: Prisma.videoDataCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.videoDataCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$videoDataPayload>[]
+          }
+          delete: {
+            args: Prisma.videoDataDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$videoDataPayload>
+          }
+          update: {
+            args: Prisma.videoDataUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$videoDataPayload>
+          }
+          deleteMany: {
+            args: Prisma.videoDataDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.videoDataUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.videoDataUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$videoDataPayload>[]
+          }
+          upsert: {
+            args: Prisma.videoDataUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$videoDataPayload>
+          }
+          aggregate: {
+            args: Prisma.VideoDataAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateVideoData>
+          }
+          groupBy: {
+            args: Prisma.videoDataGroupByArgs<ExtArgs>
+            result: $Utils.Optional<VideoDataGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.videoDataCountArgs<ExtArgs>
+            result: $Utils.Optional<VideoDataCountAggregateOutputType> | number
           }
         }
       }
@@ -776,6 +866,7 @@ export namespace Prisma {
   }
   export type GlobalOmitConfig = {
     user?: userOmit
+    videoData?: videoDataOmit
   }
 
   /* Types for Logging */
@@ -1839,6 +1930,1002 @@ export namespace Prisma {
 
 
   /**
+   * Model videoData
+   */
+
+  export type AggregateVideoData = {
+    _count: VideoDataCountAggregateOutputType | null
+    _min: VideoDataMinAggregateOutputType | null
+    _max: VideoDataMaxAggregateOutputType | null
+  }
+
+  export type VideoDataMinAggregateOutputType = {
+    id: string | null
+    audioFileUrl: string | null
+    createdBy: string | null
+  }
+
+  export type VideoDataMaxAggregateOutputType = {
+    id: string | null
+    audioFileUrl: string | null
+    createdBy: string | null
+  }
+
+  export type VideoDataCountAggregateOutputType = {
+    id: number
+    script: number
+    audioFileUrl: number
+    Captions: number
+    imageList: number
+    createdBy: number
+    _all: number
+  }
+
+
+  export type VideoDataMinAggregateInputType = {
+    id?: true
+    audioFileUrl?: true
+    createdBy?: true
+  }
+
+  export type VideoDataMaxAggregateInputType = {
+    id?: true
+    audioFileUrl?: true
+    createdBy?: true
+  }
+
+  export type VideoDataCountAggregateInputType = {
+    id?: true
+    script?: true
+    audioFileUrl?: true
+    Captions?: true
+    imageList?: true
+    createdBy?: true
+    _all?: true
+  }
+
+  export type VideoDataAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which videoData to aggregate.
+     */
+    where?: videoDataWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of videoData to fetch.
+     */
+    orderBy?: videoDataOrderByWithRelationInput | videoDataOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: videoDataWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` videoData from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` videoData.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned videoData
+    **/
+    _count?: true | VideoDataCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: VideoDataMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: VideoDataMaxAggregateInputType
+  }
+
+  export type GetVideoDataAggregateType<T extends VideoDataAggregateArgs> = {
+        [P in keyof T & keyof AggregateVideoData]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateVideoData[P]>
+      : GetScalarType<T[P], AggregateVideoData[P]>
+  }
+
+
+
+
+  export type videoDataGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: videoDataWhereInput
+    orderBy?: videoDataOrderByWithAggregationInput | videoDataOrderByWithAggregationInput[]
+    by: VideoDataScalarFieldEnum[] | VideoDataScalarFieldEnum
+    having?: videoDataScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: VideoDataCountAggregateInputType | true
+    _min?: VideoDataMinAggregateInputType
+    _max?: VideoDataMaxAggregateInputType
+  }
+
+  export type VideoDataGroupByOutputType = {
+    id: string
+    script: JsonValue
+    audioFileUrl: string
+    Captions: JsonValue
+    imageList: string[]
+    createdBy: string
+    _count: VideoDataCountAggregateOutputType | null
+    _min: VideoDataMinAggregateOutputType | null
+    _max: VideoDataMaxAggregateOutputType | null
+  }
+
+  type GetVideoDataGroupByPayload<T extends videoDataGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<VideoDataGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof VideoDataGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], VideoDataGroupByOutputType[P]>
+            : GetScalarType<T[P], VideoDataGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type videoDataSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    script?: boolean
+    audioFileUrl?: boolean
+    Captions?: boolean
+    imageList?: boolean
+    createdBy?: boolean
+  }, ExtArgs["result"]["videoData"]>
+
+  export type videoDataSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    script?: boolean
+    audioFileUrl?: boolean
+    Captions?: boolean
+    imageList?: boolean
+    createdBy?: boolean
+  }, ExtArgs["result"]["videoData"]>
+
+  export type videoDataSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    script?: boolean
+    audioFileUrl?: boolean
+    Captions?: boolean
+    imageList?: boolean
+    createdBy?: boolean
+  }, ExtArgs["result"]["videoData"]>
+
+  export type videoDataSelectScalar = {
+    id?: boolean
+    script?: boolean
+    audioFileUrl?: boolean
+    Captions?: boolean
+    imageList?: boolean
+    createdBy?: boolean
+  }
+
+  export type videoDataOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "script" | "audioFileUrl" | "Captions" | "imageList" | "createdBy", ExtArgs["result"]["videoData"]>
+
+  export type $videoDataPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "videoData"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      script: Prisma.JsonValue
+      audioFileUrl: string
+      Captions: Prisma.JsonValue
+      imageList: string[]
+      createdBy: string
+    }, ExtArgs["result"]["videoData"]>
+    composites: {}
+  }
+
+  type videoDataGetPayload<S extends boolean | null | undefined | videoDataDefaultArgs> = $Result.GetResult<Prisma.$videoDataPayload, S>
+
+  type videoDataCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<videoDataFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: VideoDataCountAggregateInputType | true
+    }
+
+  export interface videoDataDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['videoData'], meta: { name: 'videoData' } }
+    /**
+     * Find zero or one VideoData that matches the filter.
+     * @param {videoDataFindUniqueArgs} args - Arguments to find a VideoData
+     * @example
+     * // Get one VideoData
+     * const videoData = await prisma.videoData.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends videoDataFindUniqueArgs>(args: SelectSubset<T, videoDataFindUniqueArgs<ExtArgs>>): Prisma__videoDataClient<$Result.GetResult<Prisma.$videoDataPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one VideoData that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {videoDataFindUniqueOrThrowArgs} args - Arguments to find a VideoData
+     * @example
+     * // Get one VideoData
+     * const videoData = await prisma.videoData.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends videoDataFindUniqueOrThrowArgs>(args: SelectSubset<T, videoDataFindUniqueOrThrowArgs<ExtArgs>>): Prisma__videoDataClient<$Result.GetResult<Prisma.$videoDataPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first VideoData that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {videoDataFindFirstArgs} args - Arguments to find a VideoData
+     * @example
+     * // Get one VideoData
+     * const videoData = await prisma.videoData.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends videoDataFindFirstArgs>(args?: SelectSubset<T, videoDataFindFirstArgs<ExtArgs>>): Prisma__videoDataClient<$Result.GetResult<Prisma.$videoDataPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first VideoData that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {videoDataFindFirstOrThrowArgs} args - Arguments to find a VideoData
+     * @example
+     * // Get one VideoData
+     * const videoData = await prisma.videoData.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends videoDataFindFirstOrThrowArgs>(args?: SelectSubset<T, videoDataFindFirstOrThrowArgs<ExtArgs>>): Prisma__videoDataClient<$Result.GetResult<Prisma.$videoDataPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more VideoData that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {videoDataFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all VideoData
+     * const videoData = await prisma.videoData.findMany()
+     * 
+     * // Get first 10 VideoData
+     * const videoData = await prisma.videoData.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const videoDataWithIdOnly = await prisma.videoData.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends videoDataFindManyArgs>(args?: SelectSubset<T, videoDataFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$videoDataPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a VideoData.
+     * @param {videoDataCreateArgs} args - Arguments to create a VideoData.
+     * @example
+     * // Create one VideoData
+     * const VideoData = await prisma.videoData.create({
+     *   data: {
+     *     // ... data to create a VideoData
+     *   }
+     * })
+     * 
+     */
+    create<T extends videoDataCreateArgs>(args: SelectSubset<T, videoDataCreateArgs<ExtArgs>>): Prisma__videoDataClient<$Result.GetResult<Prisma.$videoDataPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many VideoData.
+     * @param {videoDataCreateManyArgs} args - Arguments to create many VideoData.
+     * @example
+     * // Create many VideoData
+     * const videoData = await prisma.videoData.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends videoDataCreateManyArgs>(args?: SelectSubset<T, videoDataCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many VideoData and returns the data saved in the database.
+     * @param {videoDataCreateManyAndReturnArgs} args - Arguments to create many VideoData.
+     * @example
+     * // Create many VideoData
+     * const videoData = await prisma.videoData.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many VideoData and only return the `id`
+     * const videoDataWithIdOnly = await prisma.videoData.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends videoDataCreateManyAndReturnArgs>(args?: SelectSubset<T, videoDataCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$videoDataPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a VideoData.
+     * @param {videoDataDeleteArgs} args - Arguments to delete one VideoData.
+     * @example
+     * // Delete one VideoData
+     * const VideoData = await prisma.videoData.delete({
+     *   where: {
+     *     // ... filter to delete one VideoData
+     *   }
+     * })
+     * 
+     */
+    delete<T extends videoDataDeleteArgs>(args: SelectSubset<T, videoDataDeleteArgs<ExtArgs>>): Prisma__videoDataClient<$Result.GetResult<Prisma.$videoDataPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one VideoData.
+     * @param {videoDataUpdateArgs} args - Arguments to update one VideoData.
+     * @example
+     * // Update one VideoData
+     * const videoData = await prisma.videoData.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends videoDataUpdateArgs>(args: SelectSubset<T, videoDataUpdateArgs<ExtArgs>>): Prisma__videoDataClient<$Result.GetResult<Prisma.$videoDataPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more VideoData.
+     * @param {videoDataDeleteManyArgs} args - Arguments to filter VideoData to delete.
+     * @example
+     * // Delete a few VideoData
+     * const { count } = await prisma.videoData.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends videoDataDeleteManyArgs>(args?: SelectSubset<T, videoDataDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more VideoData.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {videoDataUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many VideoData
+     * const videoData = await prisma.videoData.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends videoDataUpdateManyArgs>(args: SelectSubset<T, videoDataUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more VideoData and returns the data updated in the database.
+     * @param {videoDataUpdateManyAndReturnArgs} args - Arguments to update many VideoData.
+     * @example
+     * // Update many VideoData
+     * const videoData = await prisma.videoData.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more VideoData and only return the `id`
+     * const videoDataWithIdOnly = await prisma.videoData.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends videoDataUpdateManyAndReturnArgs>(args: SelectSubset<T, videoDataUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$videoDataPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one VideoData.
+     * @param {videoDataUpsertArgs} args - Arguments to update or create a VideoData.
+     * @example
+     * // Update or create a VideoData
+     * const videoData = await prisma.videoData.upsert({
+     *   create: {
+     *     // ... data to create a VideoData
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the VideoData we want to update
+     *   }
+     * })
+     */
+    upsert<T extends videoDataUpsertArgs>(args: SelectSubset<T, videoDataUpsertArgs<ExtArgs>>): Prisma__videoDataClient<$Result.GetResult<Prisma.$videoDataPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of VideoData.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {videoDataCountArgs} args - Arguments to filter VideoData to count.
+     * @example
+     * // Count the number of VideoData
+     * const count = await prisma.videoData.count({
+     *   where: {
+     *     // ... the filter for the VideoData we want to count
+     *   }
+     * })
+    **/
+    count<T extends videoDataCountArgs>(
+      args?: Subset<T, videoDataCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], VideoDataCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a VideoData.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {VideoDataAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends VideoDataAggregateArgs>(args: Subset<T, VideoDataAggregateArgs>): Prisma.PrismaPromise<GetVideoDataAggregateType<T>>
+
+    /**
+     * Group by VideoData.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {videoDataGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends videoDataGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: videoDataGroupByArgs['orderBy'] }
+        : { orderBy?: videoDataGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, videoDataGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetVideoDataGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the videoData model
+   */
+  readonly fields: videoDataFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for videoData.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__videoDataClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the videoData model
+   */
+  interface videoDataFieldRefs {
+    readonly id: FieldRef<"videoData", 'String'>
+    readonly script: FieldRef<"videoData", 'Json'>
+    readonly audioFileUrl: FieldRef<"videoData", 'String'>
+    readonly Captions: FieldRef<"videoData", 'Json'>
+    readonly imageList: FieldRef<"videoData", 'String[]'>
+    readonly createdBy: FieldRef<"videoData", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * videoData findUnique
+   */
+  export type videoDataFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the videoData
+     */
+    select?: videoDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the videoData
+     */
+    omit?: videoDataOmit<ExtArgs> | null
+    /**
+     * Filter, which videoData to fetch.
+     */
+    where: videoDataWhereUniqueInput
+  }
+
+  /**
+   * videoData findUniqueOrThrow
+   */
+  export type videoDataFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the videoData
+     */
+    select?: videoDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the videoData
+     */
+    omit?: videoDataOmit<ExtArgs> | null
+    /**
+     * Filter, which videoData to fetch.
+     */
+    where: videoDataWhereUniqueInput
+  }
+
+  /**
+   * videoData findFirst
+   */
+  export type videoDataFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the videoData
+     */
+    select?: videoDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the videoData
+     */
+    omit?: videoDataOmit<ExtArgs> | null
+    /**
+     * Filter, which videoData to fetch.
+     */
+    where?: videoDataWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of videoData to fetch.
+     */
+    orderBy?: videoDataOrderByWithRelationInput | videoDataOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for videoData.
+     */
+    cursor?: videoDataWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` videoData from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` videoData.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of videoData.
+     */
+    distinct?: VideoDataScalarFieldEnum | VideoDataScalarFieldEnum[]
+  }
+
+  /**
+   * videoData findFirstOrThrow
+   */
+  export type videoDataFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the videoData
+     */
+    select?: videoDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the videoData
+     */
+    omit?: videoDataOmit<ExtArgs> | null
+    /**
+     * Filter, which videoData to fetch.
+     */
+    where?: videoDataWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of videoData to fetch.
+     */
+    orderBy?: videoDataOrderByWithRelationInput | videoDataOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for videoData.
+     */
+    cursor?: videoDataWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` videoData from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` videoData.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of videoData.
+     */
+    distinct?: VideoDataScalarFieldEnum | VideoDataScalarFieldEnum[]
+  }
+
+  /**
+   * videoData findMany
+   */
+  export type videoDataFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the videoData
+     */
+    select?: videoDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the videoData
+     */
+    omit?: videoDataOmit<ExtArgs> | null
+    /**
+     * Filter, which videoData to fetch.
+     */
+    where?: videoDataWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of videoData to fetch.
+     */
+    orderBy?: videoDataOrderByWithRelationInput | videoDataOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing videoData.
+     */
+    cursor?: videoDataWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` videoData from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` videoData.
+     */
+    skip?: number
+    distinct?: VideoDataScalarFieldEnum | VideoDataScalarFieldEnum[]
+  }
+
+  /**
+   * videoData create
+   */
+  export type videoDataCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the videoData
+     */
+    select?: videoDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the videoData
+     */
+    omit?: videoDataOmit<ExtArgs> | null
+    /**
+     * The data needed to create a videoData.
+     */
+    data: XOR<videoDataCreateInput, videoDataUncheckedCreateInput>
+  }
+
+  /**
+   * videoData createMany
+   */
+  export type videoDataCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many videoData.
+     */
+    data: videoDataCreateManyInput | videoDataCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * videoData createManyAndReturn
+   */
+  export type videoDataCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the videoData
+     */
+    select?: videoDataSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the videoData
+     */
+    omit?: videoDataOmit<ExtArgs> | null
+    /**
+     * The data used to create many videoData.
+     */
+    data: videoDataCreateManyInput | videoDataCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * videoData update
+   */
+  export type videoDataUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the videoData
+     */
+    select?: videoDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the videoData
+     */
+    omit?: videoDataOmit<ExtArgs> | null
+    /**
+     * The data needed to update a videoData.
+     */
+    data: XOR<videoDataUpdateInput, videoDataUncheckedUpdateInput>
+    /**
+     * Choose, which videoData to update.
+     */
+    where: videoDataWhereUniqueInput
+  }
+
+  /**
+   * videoData updateMany
+   */
+  export type videoDataUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update videoData.
+     */
+    data: XOR<videoDataUpdateManyMutationInput, videoDataUncheckedUpdateManyInput>
+    /**
+     * Filter which videoData to update
+     */
+    where?: videoDataWhereInput
+    /**
+     * Limit how many videoData to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * videoData updateManyAndReturn
+   */
+  export type videoDataUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the videoData
+     */
+    select?: videoDataSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the videoData
+     */
+    omit?: videoDataOmit<ExtArgs> | null
+    /**
+     * The data used to update videoData.
+     */
+    data: XOR<videoDataUpdateManyMutationInput, videoDataUncheckedUpdateManyInput>
+    /**
+     * Filter which videoData to update
+     */
+    where?: videoDataWhereInput
+    /**
+     * Limit how many videoData to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * videoData upsert
+   */
+  export type videoDataUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the videoData
+     */
+    select?: videoDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the videoData
+     */
+    omit?: videoDataOmit<ExtArgs> | null
+    /**
+     * The filter to search for the videoData to update in case it exists.
+     */
+    where: videoDataWhereUniqueInput
+    /**
+     * In case the videoData found by the `where` argument doesn't exist, create a new videoData with this data.
+     */
+    create: XOR<videoDataCreateInput, videoDataUncheckedCreateInput>
+    /**
+     * In case the videoData was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<videoDataUpdateInput, videoDataUncheckedUpdateInput>
+  }
+
+  /**
+   * videoData delete
+   */
+  export type videoDataDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the videoData
+     */
+    select?: videoDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the videoData
+     */
+    omit?: videoDataOmit<ExtArgs> | null
+    /**
+     * Filter which videoData to delete.
+     */
+    where: videoDataWhereUniqueInput
+  }
+
+  /**
+   * videoData deleteMany
+   */
+  export type videoDataDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which videoData to delete
+     */
+    where?: videoDataWhereInput
+    /**
+     * Limit how many videoData to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * videoData without action
+   */
+  export type videoDataDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the videoData
+     */
+    select?: videoDataSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the videoData
+     */
+    omit?: videoDataOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -1862,12 +2949,31 @@ export namespace Prisma {
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
 
 
+  export const VideoDataScalarFieldEnum: {
+    id: 'id',
+    script: 'script',
+    audioFileUrl: 'audioFileUrl',
+    Captions: 'Captions',
+    imageList: 'imageList',
+    createdBy: 'createdBy'
+  };
+
+  export type VideoDataScalarFieldEnum = (typeof VideoDataScalarFieldEnum)[keyof typeof VideoDataScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
   };
 
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+  export const JsonNullValueInput: {
+    JsonNull: typeof JsonNull
+  };
+
+  export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
   export const QueryMode: {
@@ -1884,6 +2990,15 @@ export namespace Prisma {
   };
 
   export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+  export const JsonNullValueFilter: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull,
+    AnyNull: typeof AnyNull
+  };
+
+  export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
   /**
@@ -1909,6 +3024,20 @@ export namespace Prisma {
    * Reference to a field of type 'Boolean'
    */
   export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+  /**
+   * Reference to a field of type 'QueryMode'
+   */
+  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
@@ -1976,6 +3105,63 @@ export namespace Prisma {
     imageUrl?: StringNullableWithAggregatesFilter<"user"> | string | null
   }
 
+  export type videoDataWhereInput = {
+    AND?: videoDataWhereInput | videoDataWhereInput[]
+    OR?: videoDataWhereInput[]
+    NOT?: videoDataWhereInput | videoDataWhereInput[]
+    id?: StringFilter<"videoData"> | string
+    script?: JsonFilter<"videoData">
+    audioFileUrl?: StringFilter<"videoData"> | string
+    Captions?: JsonFilter<"videoData">
+    imageList?: StringNullableListFilter<"videoData">
+    createdBy?: StringFilter<"videoData"> | string
+  }
+
+  export type videoDataOrderByWithRelationInput = {
+    id?: SortOrder
+    script?: SortOrder
+    audioFileUrl?: SortOrder
+    Captions?: SortOrder
+    imageList?: SortOrder
+    createdBy?: SortOrder
+  }
+
+  export type videoDataWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: videoDataWhereInput | videoDataWhereInput[]
+    OR?: videoDataWhereInput[]
+    NOT?: videoDataWhereInput | videoDataWhereInput[]
+    script?: JsonFilter<"videoData">
+    audioFileUrl?: StringFilter<"videoData"> | string
+    Captions?: JsonFilter<"videoData">
+    imageList?: StringNullableListFilter<"videoData">
+    createdBy?: StringFilter<"videoData"> | string
+  }, "id" | "id">
+
+  export type videoDataOrderByWithAggregationInput = {
+    id?: SortOrder
+    script?: SortOrder
+    audioFileUrl?: SortOrder
+    Captions?: SortOrder
+    imageList?: SortOrder
+    createdBy?: SortOrder
+    _count?: videoDataCountOrderByAggregateInput
+    _max?: videoDataMaxOrderByAggregateInput
+    _min?: videoDataMinOrderByAggregateInput
+  }
+
+  export type videoDataScalarWhereWithAggregatesInput = {
+    AND?: videoDataScalarWhereWithAggregatesInput | videoDataScalarWhereWithAggregatesInput[]
+    OR?: videoDataScalarWhereWithAggregatesInput[]
+    NOT?: videoDataScalarWhereWithAggregatesInput | videoDataScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"videoData"> | string
+    script?: JsonWithAggregatesFilter<"videoData">
+    audioFileUrl?: StringWithAggregatesFilter<"videoData"> | string
+    Captions?: JsonWithAggregatesFilter<"videoData">
+    imageList?: StringNullableListFilter<"videoData">
+    createdBy?: StringWithAggregatesFilter<"videoData"> | string
+  }
+
   export type userCreateInput = {
     id: string
     username: string
@@ -2023,6 +3209,69 @@ export namespace Prisma {
     username?: StringFieldUpdateOperationsInput | string
     subscription?: NullableBoolFieldUpdateOperationsInput | boolean | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type videoDataCreateInput = {
+    id: string
+    script: JsonNullValueInput | InputJsonValue
+    audioFileUrl: string
+    Captions: JsonNullValueInput | InputJsonValue
+    imageList?: videoDataCreateimageListInput | string[]
+    createdBy: string
+  }
+
+  export type videoDataUncheckedCreateInput = {
+    id: string
+    script: JsonNullValueInput | InputJsonValue
+    audioFileUrl: string
+    Captions: JsonNullValueInput | InputJsonValue
+    imageList?: videoDataCreateimageListInput | string[]
+    createdBy: string
+  }
+
+  export type videoDataUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    script?: JsonNullValueInput | InputJsonValue
+    audioFileUrl?: StringFieldUpdateOperationsInput | string
+    Captions?: JsonNullValueInput | InputJsonValue
+    imageList?: videoDataUpdateimageListInput | string[]
+    createdBy?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type videoDataUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    script?: JsonNullValueInput | InputJsonValue
+    audioFileUrl?: StringFieldUpdateOperationsInput | string
+    Captions?: JsonNullValueInput | InputJsonValue
+    imageList?: videoDataUpdateimageListInput | string[]
+    createdBy?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type videoDataCreateManyInput = {
+    id: string
+    script: JsonNullValueInput | InputJsonValue
+    audioFileUrl: string
+    Captions: JsonNullValueInput | InputJsonValue
+    imageList?: videoDataCreateimageListInput | string[]
+    createdBy: string
+  }
+
+  export type videoDataUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    script?: JsonNullValueInput | InputJsonValue
+    audioFileUrl?: StringFieldUpdateOperationsInput | string
+    Captions?: JsonNullValueInput | InputJsonValue
+    imageList?: videoDataUpdateimageListInput | string[]
+    createdBy?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type videoDataUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    script?: JsonNullValueInput | InputJsonValue
+    audioFileUrl?: StringFieldUpdateOperationsInput | string
+    Captions?: JsonNullValueInput | InputJsonValue
+    imageList?: videoDataUpdateimageListInput | string[]
+    createdBy?: StringFieldUpdateOperationsInput | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -2129,6 +3378,84 @@ export namespace Prisma {
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
+  export type JsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type StringNullableListFilter<$PrismaModel = never> = {
+    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    has?: string | StringFieldRefInput<$PrismaModel> | null
+    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
+    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
+  export type videoDataCountOrderByAggregateInput = {
+    id?: SortOrder
+    script?: SortOrder
+    audioFileUrl?: SortOrder
+    Captions?: SortOrder
+    imageList?: SortOrder
+    createdBy?: SortOrder
+  }
+
+  export type videoDataMaxOrderByAggregateInput = {
+    id?: SortOrder
+    audioFileUrl?: SortOrder
+    createdBy?: SortOrder
+  }
+
+  export type videoDataMinOrderByAggregateInput = {
+    id?: SortOrder
+    audioFileUrl?: SortOrder
+    createdBy?: SortOrder
+  }
+  export type JsonWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedJsonFilter<$PrismaModel>
+    _max?: NestedJsonFilter<$PrismaModel>
+  }
 
   export type StringFieldUpdateOperationsInput = {
     set?: string
@@ -2140,6 +3467,15 @@ export namespace Prisma {
 
   export type NullableStringFieldUpdateOperationsInput = {
     set?: string | null
+  }
+
+  export type videoDataCreateimageListInput = {
+    set: string[]
+  }
+
+  export type videoDataUpdateimageListInput = {
+    set?: string[]
+    push?: string | string[]
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -2237,6 +3573,29 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+  export type NestedJsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
 

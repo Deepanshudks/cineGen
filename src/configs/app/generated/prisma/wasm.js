@@ -127,9 +127,22 @@ exports.Prisma.UserScalarFieldEnum = {
   imageUrl: 'imageUrl'
 };
 
+exports.Prisma.VideoDataScalarFieldEnum = {
+  id: 'id',
+  script: 'script',
+  audioFileUrl: 'audioFileUrl',
+  Captions: 'Captions',
+  imageList: 'imageList',
+  createdBy: 'createdBy'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.QueryMode = {
@@ -142,9 +155,16 @@ exports.Prisma.NullsOrder = {
   last: 'last'
 };
 
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
+};
+
 
 exports.Prisma.ModelName = {
-  user: 'user'
+  user: 'user',
+  videoData: 'videoData'
 };
 
 /**

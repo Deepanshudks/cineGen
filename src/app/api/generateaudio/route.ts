@@ -21,8 +21,8 @@ export async function POST(req: Request) {
     );
 
     const { data, error } = await supabase.storage
-      .from("audio")
-      .upload(`output-${id}.mp3`, buffer, {
+      .from("cinegen")
+      .upload(`/audio/output-${id}.mp3`, buffer, {
         contentType: "audio/mpeg",
         upsert: true,
       });
@@ -33,8 +33,8 @@ export async function POST(req: Request) {
     }
 
     const { data: signedUrl } = await supabase.storage
-      .from("audio")
-      .createSignedUrl(`output-${id}.mp3`, 60 * 60 * 24);
+      .from("cinegen")
+      .createSignedUrl(`/audio/output-${id}.mp3`, 60 * 60 * 24);
 
     return NextResponse.json({
       message: "Audio generated and uploaded successfully",

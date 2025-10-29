@@ -20,3 +20,12 @@ model user {
   subscription Boolean?
   imageUrl     String?
 }
+
+model videoData {
+  id           String   @id @unique
+  script       Json
+  audioFileUrl String
+  Captions     Json
+  imageList    String[]
+  createdBy    String
+}

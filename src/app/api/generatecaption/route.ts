@@ -25,7 +25,7 @@ export async function POST(req: Request) {
 
     // console.log("Transcript:", transcript);
 
-    return NextResponse.json({ message: "Done", text: transcript.text });
+    return NextResponse.json({ data: transcript.words });
   } catch (e) {
     return NextResponse.json({ error: e });
   }

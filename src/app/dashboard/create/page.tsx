@@ -6,6 +6,7 @@ import SelectDuration from "./_components/SelectDuration";
 import axios from "axios";
 import { v4 as uuid } from "uuid";
 import { Backdrop, CircularProgress } from "@mui/material";
+import PlayerDialog from "../PlayerDialog";
 
 type VideoScene = {
   imagePrompt: string;
@@ -121,6 +122,8 @@ const Page = () => {
           Create Short Video
         </button>
       </div>
+
+      <PlayerDialog videoId="sdnin" playVideo={true} />
 
       <Backdrop
         sx={(theme) => ({ color: "#fff", zIndex: theme.zIndex.drawer + 1 })}

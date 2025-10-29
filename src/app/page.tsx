@@ -61,7 +61,7 @@ export default function LandingPage() {
                 </p>
                 <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                   <button
-                    className="bg-gray-900  font-semibold !rounded-full px-8 py-3 hover:bg-gray-100 hover:shadow-lg transition-all duration-300 text-zinc-50 hover:text-black"
+                    className="bg-gray-900 cursor-pointer font-semibold !rounded-full px-8 py-3 hover:bg-gray-100 hover:shadow-lg transition-all duration-300 text-zinc-50 hover:text-black"
                     onClick={() => router.push("/api/auth/signin")}
                   >
                     Get Started

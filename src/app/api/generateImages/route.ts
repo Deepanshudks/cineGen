@@ -22,36 +22,37 @@ export async function POST(req: Request) {
       input: { prompt },
     });
 
-    console.log(result);
+    const imageUrl = result?.data?.images?.[0]?.url;
 
-    // const imageUrl = result?.data?.images?.[0]?.url;
+    if (!imageUrl) {
+      return NextResponse.json(
+        { error: "No image generated" },
+        { status: 500 }
+      );
+    }
 
-    // if (!imageUrl) {
-    //   return NextResponse.json(
-    //     { error: "No image generated" },
-    //     { status: 500 }
-    //   );
-    // }
+    const imageResponse = await fetch(imageUrl);
+    const buffer = Buffer.from(await imageResponse.arrayBuffer());
 
-    // const imageResponse = await fetch(imageUrl);
-    // const buffer = Buffer.from(await imageResponse.arrayBuffer());
+    const fileName = `image_${Date.now()}.png`;
+    const filePath = path.join(process.cwd(), "public", "generated", fileName);
 
-    // const fileName = `image_${Date.now()}.png`;
-    // const filePath = path.join(process.cwd(), "public", "generated", fileName);
+    fs.mkdirSync(path.dirname(filePath), { recursive: true });
 
-    // fs.mkdirSync(path.dirname(filePath), { recursive: true });
+    fs.writeFileSync(filePath, buffer);
 
-    // fs.writeFileSync(filePath, buffer);
-
-    // console.log(`✅ Saved image at: ${filePath}`);
+    console.log(`✅ Saved image at: ${filePath}`);
 
     return NextResponse.json({
       message: "Image generated successfully",
-      //   localPath: `/generated/${fileName}`,
-      //   remoteUrl: imageUrl,
+      localPath: `/generated/${fileName}`,
+      remoteUrl: imageUrl,
     });
   } catch (err: any) {
     console.error("❌ Error generating image:", err);
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    return NextResponse.json(
+      { error: err.message || "Failed to generate image" },
+      { status: 500 }
+    );
   }
 }

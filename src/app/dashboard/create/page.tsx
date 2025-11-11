@@ -56,9 +56,9 @@ const Page = () => {
     //   alert("Please select topic, style, and duration before generating.");
     //   return;
     // }
-    // generateVideoScript();
-    // generateAudio(videoScript);
-    // generateAudioCaption(audioUrl);
+    generateVideoScript();
+    generateAudio(videoScript);
+    generateAudioCaption(audioUrl);
     generateImage();
   };
 
@@ -82,7 +82,7 @@ const Page = () => {
         { prompt }
       );
 
-      console.log(data);
+      console.log("Video Script", data);
 
       if (status === 200 && data?.result) {
         setVideoScripts(data.result);
@@ -106,6 +106,7 @@ const Page = () => {
         id,
       });
       setAudioUrl(data.url);
+      data.url && generateAudioCaption(data.url);
       return data;
     } catch (err: any) {
       console.error("Audio generation error:", err.message);
@@ -141,16 +142,18 @@ const Page = () => {
   // };
 
   const generateImage = async () => {
-    const res = await fetch("/api/generate", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        prompt:
-          "A lone archivist in a vast, dimly lit, futuristic library filled with glowing data servers and holographic dust motes. The archivist reaches for a single, ancient, pulsating data-core on a pedestal. Cinematic lighting, hyper-detailed, 8K, sci-fi concept art.",
-      }),
+    let images = [];
+    videoScript.forEach((element) => {
+      fetch("/api/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          prompt: element.imagePrompt,
+        }),
+      }).then((res) => {
+        console.log(res);
+      });
     });
-
-    console.log(res);
   };
 
   return (
